@@ -1,22 +1,25 @@
-import logo from './logo.svg';
+import { useEffect } from 'react';
 import './App.css';
+import {EurUah, UsdUah} from './component/slice';
+import {useSelector, useDispatch} from 'react-redux';
 
 function App() {
+const fetchEur = useSelector(x=>x.rate.eur.data);
+const fetchUsd = useSelector(y=>y.rate.usd.data);
+const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(EurUah());
+    dispatch(UsdUah());
+  }, [dispatch]);
+  if (!fetchEur) return "Loading...";
+  if (!fetchUsd) return "Loading...";
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div className='header'>
+        <span>USD/UAH - {fetchUsd}</span>
+        <span>EUR/UAH - {fetchEur}</span>
+        </div>
       </header>
     </div>
   );
